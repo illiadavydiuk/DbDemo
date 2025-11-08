@@ -6,18 +6,21 @@ using System.Text;
 
 namespace DbDemo.Core.Models
 {
-    public class Student
+    public class Teacher
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int StudentId { get; set; }
+        public int TeacherId { get; set; }
 
         [ForeignKey(nameof(Resident))]
         public int ResidentId { get; set; }
         public virtual Resident Resident { get; set; }
 
-        [ForeignKey(nameof(Class))]
-        public int ClassId { get; set; }
-        public virtual Class Class { get; set; }
+        public string Discipline { get; set; }
+        public int ExperienceYears { get; set; }
+
+        [ForeignKey(nameof(School))]
+        public int SchoolId { get; set; }
+        public virtual School School { get; set; }
     }
 }

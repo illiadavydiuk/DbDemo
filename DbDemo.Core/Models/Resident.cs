@@ -19,7 +19,7 @@ namespace DbDemo.Core.Models
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
 
-    //    public virtual ICollection<Student> Students { get; set; } = new HashSet<Student>();
-    //    public virtual ICollection<Teacher> Teachers { get; set; } = new HashSet<Teacher>();
+        public virtual ICollection<Student> Students { get; set; } = new HashSet<Student>();
+        public virtual ICollection<Teacher> Teachers { get; set; } = new HashSet<Teacher>();
     }
 }

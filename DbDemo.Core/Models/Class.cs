@@ -17,10 +17,10 @@ namespace DbDemo.Core.Models
         public int SchoolId { get; set; }
         public virtual School School { get; set; }
 
-        //[ForeignKey(nameof(Teacher))]
+        [ForeignKey(nameof(Teacher))]
         public int? TeacherId { get; set; }
-        //public virtual Teacher Teacher { get; set; }
+        public virtual Teacher Teacher { get; set; }
 
-        //public virtual ICollection<Student> Students { get; set; } = new HashSet<Student>();
+        public virtual ICollection<Student> Students { get; set; } = new HashSet<Student>();
     }
 }

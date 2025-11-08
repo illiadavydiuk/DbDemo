@@ -20,7 +20,7 @@ namespace DbDemo.Core.Models
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
 
-        //public virtual ICollection<Class> Classes { get; set; } = new HashSet<Class>();
-        //public virtual ICollection<Teacher> Teachers { get; set; } = new HashSet<Teacher>();
+        public virtual ICollection<Class> Classes { get; set; } = new HashSet<Class>();
+        public virtual ICollection<Teacher> Teachers { get; set; } = new HashSet<Teacher>();
     }
 }

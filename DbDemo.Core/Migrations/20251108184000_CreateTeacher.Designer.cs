@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbDemo.Core.Migrations
 {
     [DbContext(typeof(DemoDbContext))]
-    [Migration("20251108165239_test1")]
-    partial class test1
+    [Migration("20251108184000_CreateTeacher")]
+    partial class CreateTeacher
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,28 @@ namespace DbDemo.Core.Migrations
                     b.HasIndex("DistrictId");
 
                     b.ToTable("Addresses", "app");
+                });
+
+            modelBuilder.Entity("DbDemo.Core.Models.Class", b =>
+                {
+                    b.Property<int>("ClassId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClassId"));
+
+                    b.Property<string>("ClassName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SchoolId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ClassId");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("Classes", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.District", b =>
@@ -94,23 +116,6 @@ namespace DbDemo.Core.Migrations
                     b.ToTable("Residents", "app");
                 });
 
-            modelBuilder.Entity("DbDemo.Core.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles", "app");
-                });
-
             modelBuilder.Entity("DbDemo.Core.Models.School", b =>
                 {
                     b.Property<int>("SchoolId")
@@ -141,33 +146,34 @@ namespace DbDemo.Core.Migrations
                     b.ToTable("Schools", "app");
                 });
 
-            modelBuilder.Entity("DbDemo.Core.Models.User", b =>
+            modelBuilder.Entity("DbDemo.Core.Models.Teacher", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TeacherId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeacherId"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
+                    b.Property<string>("Discipline")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int>("ExperienceYears")
                         .HasColumnType("int");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ResidentId")
+                        .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("SchoolId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("RoleId");
+                    b.HasKey("TeacherId");
 
-                    b.ToTable("Users", "app");
+                    b.HasIndex("ResidentId");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("Teachers", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Address", b =>
@@ -181,10 +187,21 @@ namespace DbDemo.Core.Migrations
                     b.Navigation("District");
                 });
 
+            modelBuilder.Entity("DbDemo.Core.Models.Class", b =>
+                {
+                    b.HasOne("DbDemo.Core.Models.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("School");
+                });
+
             modelBuilder.Entity("DbDemo.Core.Models.Resident", b =>
                 {
                     b.HasOne("DbDemo.Core.Models.Address", "Address")
-                        .WithMany("Residents")
+                        .WithMany()
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -203,30 +220,28 @@ namespace DbDemo.Core.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("DbDemo.Core.Models.User", b =>
+            modelBuilder.Entity("DbDemo.Core.Models.Teacher", b =>
                 {
-                    b.HasOne("DbDemo.Core.Models.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("DbDemo.Core.Models.Resident", "Resident")
+                        .WithMany()
+                        .HasForeignKey("ResidentId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Role");
-                });
+                    b.HasOne("DbDemo.Core.Models.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-            modelBuilder.Entity("DbDemo.Core.Models.Address", b =>
-                {
-                    b.Navigation("Residents");
+                    b.Navigation("Resident");
+
+                    b.Navigation("School");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.District", b =>
                 {
                     b.Navigation("Addresses");
-                });
-
-            modelBuilder.Entity("DbDemo.Core.Models.Role", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

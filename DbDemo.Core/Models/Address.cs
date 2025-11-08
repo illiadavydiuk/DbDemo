@@ -18,7 +18,7 @@ namespace DbDemo.Core.Models
         public int DistrictId { get; set; }
         public virtual District District { get; set; }
 
-        //public virtual ICollection<School> Schools { get; set; } = new HashSet<School>();
+        public virtual ICollection<School> Schools { get; set; } = new HashSet<School>();
         public virtual ICollection<Resident> Residents { get; set; } = new HashSet<Resident>();
     }
 }
