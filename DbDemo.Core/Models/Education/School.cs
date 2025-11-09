@@ -1,7 +1,7 @@
-﻿using DbDemo.Core.Models.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DbDemo.Core.Models.Common;
 
 namespace DbDemo.Core.Models.Education
 {

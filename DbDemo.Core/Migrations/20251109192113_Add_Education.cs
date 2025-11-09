@@ -5,7 +5,7 @@
 namespace DbDemo.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class Init_Educatiom : Migration
+    public partial class Add_Education : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

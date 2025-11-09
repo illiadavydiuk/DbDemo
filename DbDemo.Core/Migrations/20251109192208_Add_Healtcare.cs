@@ -5,7 +5,7 @@
 namespace DbDemo.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_Healthcare : Migration
+    public partial class Add_Healtcare : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,14 +26,19 @@ namespace DbDemo.Core.Migrations
                 table: "Hospital");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_MedicalVisit_Doctor_DoctorId",
+                name: "FK_MedicalReception_Doctor_DoctorId",
                 schema: "app",
-                table: "MedicalVisit");
+                table: "MedicalReception");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_MedicalVisit_Patient_PatientId",
+                name: "FK_MedicalReception_Patient_PatientId",
                 schema: "app",
-                table: "MedicalVisit");
+                table: "MedicalReception");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_MedicalReception_Residents_ResidentId",
+                schema: "app",
+                table: "MedicalReception");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Patient_Residents_ResidentId",
@@ -46,9 +51,9 @@ namespace DbDemo.Core.Migrations
                 table: "Patient");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_MedicalVisit",
+                name: "PK_MedicalReception",
                 schema: "app",
-                table: "MedicalVisit");
+                table: "MedicalReception");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Hospital",
@@ -67,9 +72,9 @@ namespace DbDemo.Core.Migrations
                 newSchema: "app");
 
             migrationBuilder.RenameTable(
-                name: "MedicalVisit",
+                name: "MedicalReception",
                 schema: "app",
-                newName: "MedicalVisits",
+                newName: "MedicalReceptions",
                 newSchema: "app");
 
             migrationBuilder.RenameTable(
@@ -91,16 +96,22 @@ namespace DbDemo.Core.Migrations
                 newName: "IX_Patients_ResidentId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_MedicalVisit_PatientId",
+                name: "IX_MedicalReception_ResidentId",
                 schema: "app",
-                table: "MedicalVisits",
-                newName: "IX_MedicalVisits_PatientId");
+                table: "MedicalReceptions",
+                newName: "IX_MedicalReceptions_ResidentId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_MedicalVisit_DoctorId",
+                name: "IX_MedicalReception_PatientId",
                 schema: "app",
-                table: "MedicalVisits",
-                newName: "IX_MedicalVisits_DoctorId");
+                table: "MedicalReceptions",
+                newName: "IX_MedicalReceptions_PatientId");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_MedicalReception_DoctorId",
+                schema: "app",
+                table: "MedicalReceptions",
+                newName: "IX_MedicalReceptions_DoctorId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Hospital_AddressId",
@@ -127,10 +138,10 @@ namespace DbDemo.Core.Migrations
                 column: "PatientId");
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_MedicalVisits",
+                name: "PK_MedicalReceptions",
                 schema: "app",
-                table: "MedicalVisits",
-                column: "MedicalVisitId");
+                table: "MedicalReceptions",
+                column: "MedicalReceptionId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Hospitals",
@@ -175,9 +186,9 @@ namespace DbDemo.Core.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_MedicalVisits_Doctors_DoctorId",
+                name: "FK_MedicalReceptions_Doctors_DoctorId",
                 schema: "app",
-                table: "MedicalVisits",
+                table: "MedicalReceptions",
                 column: "DoctorId",
                 principalSchema: "app",
                 principalTable: "Doctors",
@@ -185,14 +196,23 @@ namespace DbDemo.Core.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_MedicalVisits_Patients_PatientId",
+                name: "FK_MedicalReceptions_Patients_PatientId",
                 schema: "app",
-                table: "MedicalVisits",
+                table: "MedicalReceptions",
                 column: "PatientId",
                 principalSchema: "app",
                 principalTable: "Patients",
                 principalColumn: "PatientId",
                 onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_MedicalReceptions_Residents_ResidentId",
+                schema: "app",
+                table: "MedicalReceptions",
+                column: "ResidentId",
+                principalSchema: "app",
+                principalTable: "Residents",
+                principalColumn: "ResidentId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Patients_Residents_ResidentId",
@@ -224,14 +244,19 @@ namespace DbDemo.Core.Migrations
                 table: "Hospitals");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_MedicalVisits_Doctors_DoctorId",
+                name: "FK_MedicalReceptions_Doctors_DoctorId",
                 schema: "app",
-                table: "MedicalVisits");
+                table: "MedicalReceptions");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_MedicalVisits_Patients_PatientId",
+                name: "FK_MedicalReceptions_Patients_PatientId",
                 schema: "app",
-                table: "MedicalVisits");
+                table: "MedicalReceptions");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_MedicalReceptions_Residents_ResidentId",
+                schema: "app",
+                table: "MedicalReceptions");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Patients_Residents_ResidentId",
@@ -244,9 +269,9 @@ namespace DbDemo.Core.Migrations
                 table: "Patients");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_MedicalVisits",
+                name: "PK_MedicalReceptions",
                 schema: "app",
-                table: "MedicalVisits");
+                table: "MedicalReceptions");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Hospitals",
@@ -265,9 +290,9 @@ namespace DbDemo.Core.Migrations
                 newSchema: "app");
 
             migrationBuilder.RenameTable(
-                name: "MedicalVisits",
+                name: "MedicalReceptions",
                 schema: "app",
-                newName: "MedicalVisit",
+                newName: "MedicalReception",
                 newSchema: "app");
 
             migrationBuilder.RenameTable(
@@ -289,16 +314,22 @@ namespace DbDemo.Core.Migrations
                 newName: "IX_Patient_ResidentId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_MedicalVisits_PatientId",
+                name: "IX_MedicalReceptions_ResidentId",
                 schema: "app",
-                table: "MedicalVisit",
-                newName: "IX_MedicalVisit_PatientId");
+                table: "MedicalReception",
+                newName: "IX_MedicalReception_ResidentId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_MedicalVisits_DoctorId",
+                name: "IX_MedicalReceptions_PatientId",
                 schema: "app",
-                table: "MedicalVisit",
-                newName: "IX_MedicalVisit_DoctorId");
+                table: "MedicalReception",
+                newName: "IX_MedicalReception_PatientId");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_MedicalReceptions_DoctorId",
+                schema: "app",
+                table: "MedicalReception",
+                newName: "IX_MedicalReception_DoctorId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Hospitals_AddressId",
@@ -325,10 +356,10 @@ namespace DbDemo.Core.Migrations
                 column: "PatientId");
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_MedicalVisit",
+                name: "PK_MedicalReception",
                 schema: "app",
-                table: "MedicalVisit",
-                column: "MedicalVisitId");
+                table: "MedicalReception",
+                column: "MedicalReceptionId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Hospital",
@@ -373,9 +404,9 @@ namespace DbDemo.Core.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_MedicalVisit_Doctor_DoctorId",
+                name: "FK_MedicalReception_Doctor_DoctorId",
                 schema: "app",
-                table: "MedicalVisit",
+                table: "MedicalReception",
                 column: "DoctorId",
                 principalSchema: "app",
                 principalTable: "Doctor",
@@ -383,14 +414,23 @@ namespace DbDemo.Core.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_MedicalVisit_Patient_PatientId",
+                name: "FK_MedicalReception_Patient_PatientId",
                 schema: "app",
-                table: "MedicalVisit",
+                table: "MedicalReception",
                 column: "PatientId",
                 principalSchema: "app",
                 principalTable: "Patient",
                 principalColumn: "PatientId",
                 onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_MedicalReception_Residents_ResidentId",
+                schema: "app",
+                table: "MedicalReception",
+                column: "ResidentId",
+                principalSchema: "app",
+                principalTable: "Residents",
+                principalColumn: "ResidentId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Patient_Residents_ResidentId",

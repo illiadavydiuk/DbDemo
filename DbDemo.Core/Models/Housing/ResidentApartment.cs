@@ -1,15 +1,15 @@
-using DbDemo.Core.Models.Common;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DbDemo.Core.Models.Common;
 
 namespace DbDemo.Core.Models.Housing
 {
-    public class ResidentHousing
+    public class ResidentApartment
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ResidentHousingId { get; set; }
+        public int ResidentApartmentId { get; set; }
 
         [ForeignKey(nameof(Resident))] public int ResidentId { get; set; }
         public virtual Resident Resident { get; set; }

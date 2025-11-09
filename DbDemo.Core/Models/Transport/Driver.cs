@@ -1,6 +1,7 @@
-using DbDemo.Core.Models.Common;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DbDemo.Core.Models.Common;
 
 namespace DbDemo.Core.Models.Transport
 {
@@ -16,6 +17,5 @@ namespace DbDemo.Core.Models.Transport
         [Required] public string LicenseCategory { get; set; }
 
         public virtual ICollection<Vehicle> Vehicles { get; set; } = new HashSet<Vehicle>();
-
     }
 }

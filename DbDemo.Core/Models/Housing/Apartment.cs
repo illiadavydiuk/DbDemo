@@ -17,7 +17,7 @@ namespace DbDemo.Core.Models.Housing
         public decimal Area { get; set; }
         public int NumRooms { get; set; }
 
-        public virtual ICollection<ResidentHousing> Residents { get; set; } = new HashSet<ResidentHousing>();
+        public virtual ICollection<ResidentApartment> Residents { get; set; } = new HashSet<ResidentApartment>();
         public virtual ICollection<UtilityBill> UtilityBills { get; set; } = new HashSet<UtilityBill>();
     }
 }

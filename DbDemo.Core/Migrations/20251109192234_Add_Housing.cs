@@ -16,19 +16,24 @@ namespace DbDemo.Core.Migrations
                 table: "Apartment");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_BillPayment_UtilityBill_UtilityBillId",
+                schema: "app",
+                table: "BillPayment");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Building_Addresses_AddressId",
                 schema: "app",
                 table: "Building");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ResidentHousing_Apartment_ApartmentId",
+                name: "FK_ResidentApartment_Apartment_ApartmentId",
                 schema: "app",
-                table: "ResidentHousing");
+                table: "ResidentApartment");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ResidentHousing_Residents_ResidentId",
+                name: "FK_ResidentApartment_Residents_ResidentId",
                 schema: "app",
-                table: "ResidentHousing");
+                table: "ResidentApartment");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_UtilityBill_Apartment_ApartmentId",
@@ -41,14 +46,19 @@ namespace DbDemo.Core.Migrations
                 table: "UtilityBill");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_ResidentHousing",
+                name: "PK_ResidentApartment",
                 schema: "app",
-                table: "ResidentHousing");
+                table: "ResidentApartment");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Building",
                 schema: "app",
                 table: "Building");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_BillPayment",
+                schema: "app",
+                table: "BillPayment");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Apartment",
@@ -62,15 +72,21 @@ namespace DbDemo.Core.Migrations
                 newSchema: "app");
 
             migrationBuilder.RenameTable(
-                name: "ResidentHousing",
+                name: "ResidentApartment",
                 schema: "app",
-                newName: "ResidentHousings",
+                newName: "ResidentApartments",
                 newSchema: "app");
 
             migrationBuilder.RenameTable(
                 name: "Building",
                 schema: "app",
                 newName: "Buildings",
+                newSchema: "app");
+
+            migrationBuilder.RenameTable(
+                name: "BillPayment",
+                schema: "app",
+                newName: "BillPayments",
                 newSchema: "app");
 
             migrationBuilder.RenameTable(
@@ -86,22 +102,28 @@ namespace DbDemo.Core.Migrations
                 newName: "IX_UtilityBills_ApartmentId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_ResidentHousing_ResidentId",
+                name: "IX_ResidentApartment_ResidentId",
                 schema: "app",
-                table: "ResidentHousings",
-                newName: "IX_ResidentHousings_ResidentId");
+                table: "ResidentApartments",
+                newName: "IX_ResidentApartments_ResidentId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_ResidentHousing_ApartmentId",
+                name: "IX_ResidentApartment_ApartmentId",
                 schema: "app",
-                table: "ResidentHousings",
-                newName: "IX_ResidentHousings_ApartmentId");
+                table: "ResidentApartments",
+                newName: "IX_ResidentApartments_ApartmentId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Building_AddressId",
                 schema: "app",
                 table: "Buildings",
                 newName: "IX_Buildings_AddressId");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_BillPayment_UtilityBillId",
+                schema: "app",
+                table: "BillPayments",
+                newName: "IX_BillPayments_UtilityBillId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Apartment_BuildingId",
@@ -116,16 +138,22 @@ namespace DbDemo.Core.Migrations
                 column: "UtilityBillId");
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_ResidentHousings",
+                name: "PK_ResidentApartments",
                 schema: "app",
-                table: "ResidentHousings",
-                column: "ResidentHousingId");
+                table: "ResidentApartments",
+                column: "ResidentApartmentId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Buildings",
                 schema: "app",
                 table: "Buildings",
                 column: "BuildingId");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_BillPayments",
+                schema: "app",
+                table: "BillPayments",
+                column: "BillPaymentId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Apartments",
@@ -144,6 +172,16 @@ namespace DbDemo.Core.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_BillPayments_UtilityBills_UtilityBillId",
+                schema: "app",
+                table: "BillPayments",
+                column: "UtilityBillId",
+                principalSchema: "app",
+                principalTable: "UtilityBills",
+                principalColumn: "UtilityBillId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Buildings_Addresses_AddressId",
                 schema: "app",
                 table: "Buildings",
@@ -154,9 +192,9 @@ namespace DbDemo.Core.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ResidentHousings_Apartments_ApartmentId",
+                name: "FK_ResidentApartments_Apartments_ApartmentId",
                 schema: "app",
-                table: "ResidentHousings",
+                table: "ResidentApartments",
                 column: "ApartmentId",
                 principalSchema: "app",
                 principalTable: "Apartments",
@@ -164,9 +202,9 @@ namespace DbDemo.Core.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ResidentHousings_Residents_ResidentId",
+                name: "FK_ResidentApartments_Residents_ResidentId",
                 schema: "app",
-                table: "ResidentHousings",
+                table: "ResidentApartments",
                 column: "ResidentId",
                 principalSchema: "app",
                 principalTable: "Residents",
@@ -181,7 +219,7 @@ namespace DbDemo.Core.Migrations
                 principalSchema: "app",
                 principalTable: "Apartments",
                 principalColumn: "ApartmentId",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />
@@ -193,19 +231,24 @@ namespace DbDemo.Core.Migrations
                 table: "Apartments");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_BillPayments_UtilityBills_UtilityBillId",
+                schema: "app",
+                table: "BillPayments");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Buildings_Addresses_AddressId",
                 schema: "app",
                 table: "Buildings");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ResidentHousings_Apartments_ApartmentId",
+                name: "FK_ResidentApartments_Apartments_ApartmentId",
                 schema: "app",
-                table: "ResidentHousings");
+                table: "ResidentApartments");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ResidentHousings_Residents_ResidentId",
+                name: "FK_ResidentApartments_Residents_ResidentId",
                 schema: "app",
-                table: "ResidentHousings");
+                table: "ResidentApartments");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_UtilityBills_Apartments_ApartmentId",
@@ -218,14 +261,19 @@ namespace DbDemo.Core.Migrations
                 table: "UtilityBills");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_ResidentHousings",
+                name: "PK_ResidentApartments",
                 schema: "app",
-                table: "ResidentHousings");
+                table: "ResidentApartments");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Buildings",
                 schema: "app",
                 table: "Buildings");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_BillPayments",
+                schema: "app",
+                table: "BillPayments");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Apartments",
@@ -239,15 +287,21 @@ namespace DbDemo.Core.Migrations
                 newSchema: "app");
 
             migrationBuilder.RenameTable(
-                name: "ResidentHousings",
+                name: "ResidentApartments",
                 schema: "app",
-                newName: "ResidentHousing",
+                newName: "ResidentApartment",
                 newSchema: "app");
 
             migrationBuilder.RenameTable(
                 name: "Buildings",
                 schema: "app",
                 newName: "Building",
+                newSchema: "app");
+
+            migrationBuilder.RenameTable(
+                name: "BillPayments",
+                schema: "app",
+                newName: "BillPayment",
                 newSchema: "app");
 
             migrationBuilder.RenameTable(
@@ -263,22 +317,28 @@ namespace DbDemo.Core.Migrations
                 newName: "IX_UtilityBill_ApartmentId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_ResidentHousings_ResidentId",
+                name: "IX_ResidentApartments_ResidentId",
                 schema: "app",
-                table: "ResidentHousing",
-                newName: "IX_ResidentHousing_ResidentId");
+                table: "ResidentApartment",
+                newName: "IX_ResidentApartment_ResidentId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_ResidentHousings_ApartmentId",
+                name: "IX_ResidentApartments_ApartmentId",
                 schema: "app",
-                table: "ResidentHousing",
-                newName: "IX_ResidentHousing_ApartmentId");
+                table: "ResidentApartment",
+                newName: "IX_ResidentApartment_ApartmentId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Buildings_AddressId",
                 schema: "app",
                 table: "Building",
                 newName: "IX_Building_AddressId");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_BillPayments_UtilityBillId",
+                schema: "app",
+                table: "BillPayment",
+                newName: "IX_BillPayment_UtilityBillId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Apartments_BuildingId",
@@ -293,16 +353,22 @@ namespace DbDemo.Core.Migrations
                 column: "UtilityBillId");
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_ResidentHousing",
+                name: "PK_ResidentApartment",
                 schema: "app",
-                table: "ResidentHousing",
-                column: "ResidentHousingId");
+                table: "ResidentApartment",
+                column: "ResidentApartmentId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Building",
                 schema: "app",
                 table: "Building",
                 column: "BuildingId");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_BillPayment",
+                schema: "app",
+                table: "BillPayment",
+                column: "BillPaymentId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Apartment",
@@ -321,6 +387,16 @@ namespace DbDemo.Core.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_BillPayment_UtilityBill_UtilityBillId",
+                schema: "app",
+                table: "BillPayment",
+                column: "UtilityBillId",
+                principalSchema: "app",
+                principalTable: "UtilityBill",
+                principalColumn: "UtilityBillId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Building_Addresses_AddressId",
                 schema: "app",
                 table: "Building",
@@ -331,9 +407,9 @@ namespace DbDemo.Core.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ResidentHousing_Apartment_ApartmentId",
+                name: "FK_ResidentApartment_Apartment_ApartmentId",
                 schema: "app",
-                table: "ResidentHousing",
+                table: "ResidentApartment",
                 column: "ApartmentId",
                 principalSchema: "app",
                 principalTable: "Apartment",
@@ -341,9 +417,9 @@ namespace DbDemo.Core.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ResidentHousing_Residents_ResidentId",
+                name: "FK_ResidentApartment_Residents_ResidentId",
                 schema: "app",
-                table: "ResidentHousing",
+                table: "ResidentApartment",
                 column: "ResidentId",
                 principalSchema: "app",
                 principalTable: "Residents",
@@ -358,7 +434,7 @@ namespace DbDemo.Core.Migrations
                 principalSchema: "app",
                 principalTable: "Apartment",
                 principalColumn: "ApartmentId",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

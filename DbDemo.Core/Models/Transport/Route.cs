@@ -15,5 +15,6 @@ namespace DbDemo.Core.Models.Transport
         [Required] public string Type { get; set; }
 
         public virtual ICollection<RouteStop> RouteStops { get; set; } = new HashSet<RouteStop>();
+        public virtual ICollection<Trip> Trips { get; set; } = new HashSet<Trip>();
     }
 }

@@ -10,8 +10,7 @@ namespace DbDemo.Core.Models.Common
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DistrictId { get; set; }
 
-        [Required]
-        public string Name { get; set; }
+        [Required] public string Name { get; set; }
 
         public virtual ICollection<Address> Addresses { get; set; } = new HashSet<Address>();
     }

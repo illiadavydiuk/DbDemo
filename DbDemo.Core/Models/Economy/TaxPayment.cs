@@ -4,16 +4,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DbDemo.Core.Models.Economy
 {
-    public class License
+    public class TaxPayment
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int LicenseId { get; set; }
+        public int TaxPaymentId { get; set; }
 
         [ForeignKey(nameof(Company))] public int CompanyId { get; set; }
         public virtual Company Company { get; set; }
 
-        public string LicenseType { get; set; }
-        public DateTime ExpiryDate { get; set; }
+        public DateTime PaymentDate { get; set; }
+        public decimal Amount { get; set; }
     }
 }

@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DbDemo.Core.Models.Healthcare
 {
-    public class MedicalVisit
+    public class MedicalReception
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int MedicalVisitId { get; set; }
+        public int MedicalReceptionId { get; set; }
 
-        public DateTime VisitDate { get; set; }
+        public DateTime ReceptionDate { get; set; }
         public string Annotation { get; set; }
 
         [ForeignKey(nameof(Patient))] public int PatientId { get; set; }

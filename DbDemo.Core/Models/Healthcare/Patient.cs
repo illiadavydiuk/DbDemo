@@ -1,7 +1,7 @@
-using DbDemo.Core.Models.Common;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DbDemo.Core.Models.Common;
 
 namespace DbDemo.Core.Models.Healthcare
 {
@@ -17,6 +17,6 @@ namespace DbDemo.Core.Models.Healthcare
         public string Diagnosis { get; set; }
         public string MedicalHistory { get; set; }
 
-        public virtual ICollection<MedicalVisit> Visits { get; set; } = new HashSet<MedicalVisit>();
+        public virtual ICollection<MedicalReception> MedicalReceptions { get; set; } = new HashSet<MedicalReception>();
     }
 }

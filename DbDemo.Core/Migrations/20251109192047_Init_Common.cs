@@ -65,8 +65,8 @@ namespace DbDemo.Core.Migrations
                 {
                     AddressId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HouseNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    HouseNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DistrictId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -113,8 +113,8 @@ namespace DbDemo.Core.Migrations
                     CompanyId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: false),
                     IndustryId = table.Column<int>(type: "int", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: false),
                     NumberOfEmployees = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -126,7 +126,7 @@ namespace DbDemo.Core.Migrations
                         principalSchema: "app",
                         principalTable: "Addresses",
                         principalColumn: "AddressId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Company_Industry_IndustryId",
                         column: x => x.IndustryId,
@@ -224,7 +224,7 @@ namespace DbDemo.Core.Migrations
                         principalSchema: "app",
                         principalTable: "Addresses",
                         principalColumn: "AddressId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -258,15 +258,38 @@ namespace DbDemo.Core.Migrations
                 {
                     LicenseId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CompanyId = table.Column<int>(type: "int", nullable: false),
                     LicenseType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CompanyId = table.Column<int>(type: "int", nullable: false)
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_License", x => x.LicenseId);
                     table.ForeignKey(
                         name: "FK_License_Company_CompanyId",
+                        column: x => x.CompanyId,
+                        principalSchema: "app",
+                        principalTable: "Company",
+                        principalColumn: "CompanyId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaxPayment",
+                schema: "app",
+                columns: table => new
+                {
+                    TaxPaymentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CompanyId = table.Column<int>(type: "int", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxPayment", x => x.TaxPaymentId);
+                    table.ForeignKey(
+                        name: "FK_TaxPayment_Company_CompanyId",
                         column: x => x.CompanyId,
                         principalSchema: "app",
                         principalTable: "Company",
@@ -335,12 +358,10 @@ namespace DbDemo.Core.Migrations
                 {
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CompanyId = table.Column<int>(type: "int", nullable: false),
-                    ResidentId = table.Column<int>(type: "int", nullable: false)
+                    ResidentId = table.Column<int>(type: "int", nullable: false),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -354,6 +375,29 @@ namespace DbDemo.Core.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Employee_Residents_ResidentId",
+                        column: x => x.ResidentId,
+                        principalSchema: "app",
+                        principalTable: "Residents",
+                        principalColumn: "ResidentId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Passenger",
+                schema: "app",
+                columns: table => new
+                {
+                    PassengerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ResidentId = table.Column<int>(type: "int", nullable: false),
+                    TicketNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Passenger", x => x.PassengerId);
+                    table.ForeignKey(
+                        name: "FK_Passenger_Residents_ResidentId",
                         column: x => x.ResidentId,
                         principalSchema: "app",
                         principalTable: "Residents",
@@ -443,11 +487,11 @@ namespace DbDemo.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ResidentHousing",
+                name: "ResidentApartment",
                 schema: "app",
                 columns: table => new
                 {
-                    ResidentHousingId = table.Column<int>(type: "int", nullable: false)
+                    ResidentApartmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ResidentId = table.Column<int>(type: "int", nullable: false),
                     ApartmentId = table.Column<int>(type: "int", nullable: false),
@@ -455,16 +499,16 @@ namespace DbDemo.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ResidentHousing", x => x.ResidentHousingId);
+                    table.PrimaryKey("PK_ResidentApartment", x => x.ResidentApartmentId);
                     table.ForeignKey(
-                        name: "FK_ResidentHousing_Apartment_ApartmentId",
+                        name: "FK_ResidentApartment_Apartment_ApartmentId",
                         column: x => x.ApartmentId,
                         principalSchema: "app",
                         principalTable: "Apartment",
                         principalColumn: "ApartmentId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ResidentHousing_Residents_ResidentId",
+                        name: "FK_ResidentApartment_Residents_ResidentId",
                         column: x => x.ResidentId,
                         principalSchema: "app",
                         principalTable: "Residents",
@@ -481,7 +525,6 @@ namespace DbDemo.Core.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ApartmentId = table.Column<int>(type: "int", nullable: false),
                     IssueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -493,7 +536,7 @@ namespace DbDemo.Core.Migrations
                         principalSchema: "app",
                         principalTable: "Apartment",
                         principalColumn: "ApartmentId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -503,9 +546,10 @@ namespace DbDemo.Core.Migrations
                 {
                     VehicleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LicensePlate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LicensePlate = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Capacity = table.Column<int>(type: "int", nullable: false),
                     DriverId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -521,34 +565,41 @@ namespace DbDemo.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MedicalVisit",
+                name: "MedicalReception",
                 schema: "app",
                 columns: table => new
                 {
-                    MedicalVisitId = table.Column<int>(type: "int", nullable: false)
+                    MedicalReceptionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VisitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReceptionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Annotation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PatientId = table.Column<int>(type: "int", nullable: false),
-                    DoctorId = table.Column<int>(type: "int", nullable: false)
+                    DoctorId = table.Column<int>(type: "int", nullable: false),
+                    ResidentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MedicalVisit", x => x.MedicalVisitId);
+                    table.PrimaryKey("PK_MedicalReception", x => x.MedicalReceptionId);
                     table.ForeignKey(
-                        name: "FK_MedicalVisit_Doctor_DoctorId",
+                        name: "FK_MedicalReception_Doctor_DoctorId",
                         column: x => x.DoctorId,
                         principalSchema: "app",
                         principalTable: "Doctor",
                         principalColumn: "DoctorId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MedicalVisit_Patient_PatientId",
+                        name: "FK_MedicalReception_Patient_PatientId",
                         column: x => x.PatientId,
                         principalSchema: "app",
                         principalTable: "Patient",
                         principalColumn: "PatientId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MedicalReception_Residents_ResidentId",
+                        column: x => x.ResidentId,
+                        principalSchema: "app",
+                        principalTable: "Residents",
+                        principalColumn: "ResidentId");
                 });
 
             migrationBuilder.CreateTable(
@@ -579,6 +630,60 @@ namespace DbDemo.Core.Migrations
                         principalTable: "Teacher",
                         principalColumn: "TeacherId",
                         onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BillPayment",
+                schema: "app",
+                columns: table => new
+                {
+                    BillPaymentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UtilityBillId = table.Column<int>(type: "int", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AmountPaid = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BillPayment", x => x.BillPaymentId);
+                    table.ForeignKey(
+                        name: "FK_BillPayment_UtilityBill_UtilityBillId",
+                        column: x => x.UtilityBillId,
+                        principalSchema: "app",
+                        principalTable: "UtilityBill",
+                        principalColumn: "UtilityBillId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Trip",
+                schema: "app",
+                columns: table => new
+                {
+                    TripId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RouteId = table.Column<int>(type: "int", nullable: false),
+                    VehicleId = table.Column<int>(type: "int", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trip", x => x.TripId);
+                    table.ForeignKey(
+                        name: "FK_Trip_Route_RouteId",
+                        column: x => x.RouteId,
+                        principalSchema: "app",
+                        principalTable: "Route",
+                        principalColumn: "RouteId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Trip_Vehicle_VehicleId",
+                        column: x => x.VehicleId,
+                        principalSchema: "app",
+                        principalTable: "Vehicle",
+                        principalColumn: "VehicleId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -617,17 +722,75 @@ namespace DbDemo.Core.Migrations
                         principalColumn: "SchoolId");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PassengerTrip",
+                schema: "app",
+                columns: table => new
+                {
+                    PassengerId = table.Column<int>(type: "int", nullable: false),
+                    TripId = table.Column<int>(type: "int", nullable: false),
+                    Seat = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PassengerTrip", x => new { x.PassengerId, x.TripId });
+                    table.ForeignKey(
+                        name: "FK_PassengerTrip_Passenger_PassengerId",
+                        column: x => x.PassengerId,
+                        principalSchema: "app",
+                        principalTable: "Passenger",
+                        principalColumn: "PassengerId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PassengerTrip_Trip_TripId",
+                        column: x => x.TripId,
+                        principalSchema: "app",
+                        principalTable: "Trip",
+                        principalColumn: "TripId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedule",
+                schema: "app",
+                columns: table => new
+                {
+                    ScheduleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TripId = table.Column<int>(type: "int", nullable: false),
+                    DepartureTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedule", x => x.ScheduleId);
+                    table.ForeignKey(
+                        name: "FK_Schedule_Trip_TripId",
+                        column: x => x.TripId,
+                        principalSchema: "app",
+                        principalTable: "Trip",
+                        principalColumn: "TripId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Addresses_DistrictId",
+                name: "IX_Addresses_DistrictId_Street_HouseNumber",
                 schema: "app",
                 table: "Addresses",
-                column: "DistrictId");
+                columns: new[] { "DistrictId", "Street", "HouseNumber" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Apartment_BuildingId",
                 schema: "app",
                 table: "Apartment",
                 column: "BuildingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BillPayment_UtilityBillId",
+                schema: "app",
+                table: "BillPayment",
+                column: "UtilityBillId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Building_AddressId",
@@ -702,16 +865,34 @@ namespace DbDemo.Core.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MedicalVisit_DoctorId",
+                name: "IX_MedicalReception_DoctorId",
                 schema: "app",
-                table: "MedicalVisit",
+                table: "MedicalReception",
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MedicalVisit_PatientId",
+                name: "IX_MedicalReception_PatientId",
                 schema: "app",
-                table: "MedicalVisit",
+                table: "MedicalReception",
                 column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MedicalReception_ResidentId",
+                schema: "app",
+                table: "MedicalReception",
+                column: "ResidentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Passenger_ResidentId",
+                schema: "app",
+                table: "Passenger",
+                column: "ResidentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PassengerTrip_TripId",
+                schema: "app",
+                table: "PassengerTrip",
+                column: "TripId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Patient_ResidentId",
@@ -720,15 +901,15 @@ namespace DbDemo.Core.Migrations
                 column: "ResidentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResidentHousing_ApartmentId",
+                name: "IX_ResidentApartment_ApartmentId",
                 schema: "app",
-                table: "ResidentHousing",
+                table: "ResidentApartment",
                 column: "ApartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResidentHousing_ResidentId",
+                name: "IX_ResidentApartment_ResidentId",
                 schema: "app",
-                table: "ResidentHousing",
+                table: "ResidentApartment",
                 column: "ResidentId");
 
             migrationBuilder.CreateIndex(
@@ -742,6 +923,12 @@ namespace DbDemo.Core.Migrations
                 schema: "app",
                 table: "RouteStop",
                 column: "StopId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Schedule_TripId",
+                schema: "app",
+                table: "Schedule",
+                column: "TripId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_School_AddressId",
@@ -774,6 +961,12 @@ namespace DbDemo.Core.Migrations
                 column: "SchoolId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TaxPayment_CompanyId",
+                schema: "app",
+                table: "TaxPayment",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Teacher_ResidentId",
                 schema: "app",
                 table: "Teacher",
@@ -786,6 +979,18 @@ namespace DbDemo.Core.Migrations
                 column: "SchoolId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Trip_RouteId",
+                schema: "app",
+                table: "Trip",
+                column: "RouteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Trip_VehicleId",
+                schema: "app",
+                table: "Trip",
+                column: "VehicleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UtilityBill_ApartmentId",
                 schema: "app",
                 table: "UtilityBill",
@@ -796,11 +1001,21 @@ namespace DbDemo.Core.Migrations
                 schema: "app",
                 table: "Vehicle",
                 column: "DriverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicle_LicensePlate",
+                schema: "app",
+                table: "Vehicle",
+                column: "LicensePlate");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BillPayment",
+                schema: "app");
+
             migrationBuilder.DropTable(
                 name: "Employee",
                 schema: "app");
@@ -810,11 +1025,15 @@ namespace DbDemo.Core.Migrations
                 schema: "app");
 
             migrationBuilder.DropTable(
-                name: "MedicalVisit",
+                name: "MedicalReception",
                 schema: "app");
 
             migrationBuilder.DropTable(
-                name: "ResidentHousing",
+                name: "PassengerTrip",
+                schema: "app");
+
+            migrationBuilder.DropTable(
+                name: "ResidentApartment",
                 schema: "app");
 
             migrationBuilder.DropTable(
@@ -822,19 +1041,19 @@ namespace DbDemo.Core.Migrations
                 schema: "app");
 
             migrationBuilder.DropTable(
+                name: "Schedule",
+                schema: "app");
+
+            migrationBuilder.DropTable(
                 name: "Student",
                 schema: "app");
 
             migrationBuilder.DropTable(
+                name: "TaxPayment",
+                schema: "app");
+
+            migrationBuilder.DropTable(
                 name: "UtilityBill",
-                schema: "app");
-
-            migrationBuilder.DropTable(
-                name: "Vehicle",
-                schema: "app");
-
-            migrationBuilder.DropTable(
-                name: "Company",
                 schema: "app");
 
             migrationBuilder.DropTable(
@@ -846,7 +1065,7 @@ namespace DbDemo.Core.Migrations
                 schema: "app");
 
             migrationBuilder.DropTable(
-                name: "Route",
+                name: "Passenger",
                 schema: "app");
 
             migrationBuilder.DropTable(
@@ -854,7 +1073,15 @@ namespace DbDemo.Core.Migrations
                 schema: "app");
 
             migrationBuilder.DropTable(
+                name: "Trip",
+                schema: "app");
+
+            migrationBuilder.DropTable(
                 name: "Class",
+                schema: "app");
+
+            migrationBuilder.DropTable(
+                name: "Company",
                 schema: "app");
 
             migrationBuilder.DropTable(
@@ -862,15 +1089,15 @@ namespace DbDemo.Core.Migrations
                 schema: "app");
 
             migrationBuilder.DropTable(
-                name: "Driver",
-                schema: "app");
-
-            migrationBuilder.DropTable(
-                name: "Industry",
-                schema: "app");
-
-            migrationBuilder.DropTable(
                 name: "Hospital",
+                schema: "app");
+
+            migrationBuilder.DropTable(
+                name: "Route",
+                schema: "app");
+
+            migrationBuilder.DropTable(
+                name: "Vehicle",
                 schema: "app");
 
             migrationBuilder.DropTable(
@@ -878,15 +1105,23 @@ namespace DbDemo.Core.Migrations
                 schema: "app");
 
             migrationBuilder.DropTable(
+                name: "Industry",
+                schema: "app");
+
+            migrationBuilder.DropTable(
                 name: "Building",
                 schema: "app");
 
             migrationBuilder.DropTable(
-                name: "Residents",
+                name: "Driver",
                 schema: "app");
 
             migrationBuilder.DropTable(
                 name: "School",
+                schema: "app");
+
+            migrationBuilder.DropTable(
+                name: "Residents",
                 schema: "app");
 
             migrationBuilder.DropTable(

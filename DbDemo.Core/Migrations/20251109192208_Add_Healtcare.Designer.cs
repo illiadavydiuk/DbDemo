@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbDemo.Core.Migrations
 {
     [DbContext(typeof(DemoDbContext))]
-    [Migration("20251109181828_Init_Educatiom")]
-    partial class Init_Educatiom
+    [Migration("20251109192208_Add_Healtcare")]
+    partial class Add_Healtcare
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,15 +39,15 @@ namespace DbDemo.Core.Migrations
 
                     b.Property<string>("HouseNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Street")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("AddressId");
 
-                    b.HasIndex("DistrictId");
+                    b.HasIndex("DistrictId", "Street", "HouseNumber");
 
                     b.ToTable("Addresses", "app");
                 });
@@ -135,14 +135,6 @@ namespace DbDemo.Core.Migrations
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Position")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -202,6 +194,30 @@ namespace DbDemo.Core.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("License", "app");
+                });
+
+            modelBuilder.Entity("DbDemo.Core.Models.Economy.TaxPayment", b =>
+                {
+                    b.Property<int>("TaxPaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaxPaymentId"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TaxPaymentId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("TaxPayment", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Education.Class", b =>
@@ -343,7 +359,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("ResidentId");
 
-                    b.ToTable("Doctor", "app");
+                    b.ToTable("Doctors", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Healthcare.Hospital", b =>
@@ -369,16 +385,16 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Hospital", "app");
+                    b.ToTable("Hospitals", "app");
                 });
 
-            modelBuilder.Entity("DbDemo.Core.Models.Healthcare.MedicalVisit", b =>
+            modelBuilder.Entity("DbDemo.Core.Models.Healthcare.MedicalReception", b =>
                 {
-                    b.Property<int>("MedicalVisitId")
+                    b.Property<int>("MedicalReceptionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicalVisitId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicalReceptionId"));
 
                     b.Property<string>("Annotation")
                         .IsRequired()
@@ -390,16 +406,21 @@ namespace DbDemo.Core.Migrations
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("VisitDate")
+                    b.Property<DateTime>("ReceptionDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("MedicalVisitId");
+                    b.Property<int?>("ResidentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MedicalReceptionId");
 
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("MedicalVisit", "app");
+                    b.HasIndex("ResidentId");
+
+                    b.ToTable("MedicalReceptions", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Healthcare.Patient", b =>
@@ -425,7 +446,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("ResidentId");
 
-                    b.ToTable("Patient", "app");
+                    b.ToTable("Patients", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Housing.Apartment", b =>
@@ -456,6 +477,30 @@ namespace DbDemo.Core.Migrations
                     b.ToTable("Apartment", "app");
                 });
 
+            modelBuilder.Entity("DbDemo.Core.Models.Housing.BillPayment", b =>
+                {
+                    b.Property<int>("BillPaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BillPaymentId"));
+
+                    b.Property<decimal>("AmountPaid")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UtilityBillId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BillPaymentId");
+
+                    b.HasIndex("UtilityBillId");
+
+                    b.ToTable("BillPayment", "app");
+                });
+
             modelBuilder.Entity("DbDemo.Core.Models.Housing.Building", b =>
                 {
                     b.Property<int>("BuildingId")
@@ -483,13 +528,13 @@ namespace DbDemo.Core.Migrations
                     b.ToTable("Building", "app");
                 });
 
-            modelBuilder.Entity("DbDemo.Core.Models.Housing.ResidentHousing", b =>
+            modelBuilder.Entity("DbDemo.Core.Models.Housing.ResidentApartment", b =>
                 {
-                    b.Property<int>("ResidentHousingId")
+                    b.Property<int>("ResidentApartmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ResidentHousingId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ResidentApartmentId"));
 
                     b.Property<int>("ApartmentId")
                         .HasColumnType("int");
@@ -500,13 +545,13 @@ namespace DbDemo.Core.Migrations
                     b.Property<int>("ResidentId")
                         .HasColumnType("int");
 
-                    b.HasKey("ResidentHousingId");
+                    b.HasKey("ResidentApartmentId");
 
                     b.HasIndex("ApartmentId");
 
                     b.HasIndex("ResidentId");
 
-                    b.ToTable("ResidentHousing", "app");
+                    b.ToTable("ResidentApartment", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Housing.UtilityBill", b =>
@@ -521,9 +566,6 @@ namespace DbDemo.Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("IssueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("PaymentDate")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("TotalAmount")
@@ -556,6 +598,51 @@ namespace DbDemo.Core.Migrations
                     b.HasIndex("ResidentId");
 
                     b.ToTable("Driver", "app");
+                });
+
+            modelBuilder.Entity("DbDemo.Core.Models.Transport.Passenger", b =>
+                {
+                    b.Property<int>("PassengerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PassengerId"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ResidentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TicketNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PassengerId");
+
+                    b.HasIndex("ResidentId");
+
+                    b.ToTable("Passenger", "app");
+                });
+
+            modelBuilder.Entity("DbDemo.Core.Models.Transport.PassengerTrip", b =>
+                {
+                    b.Property<int>("PassengerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TripId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Seat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PassengerId", "TripId");
+
+                    b.HasIndex("TripId");
+
+                    b.ToTable("PassengerTrip", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Route", b =>
@@ -601,6 +688,34 @@ namespace DbDemo.Core.Migrations
                     b.ToTable("RouteStop", "app");
                 });
 
+            modelBuilder.Entity("DbDemo.Core.Models.Transport.Schedule", b =>
+                {
+                    b.Property<int>("ScheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleId"));
+
+                    b.Property<DateTime?>("ArrivalTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DepartureTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TripId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ScheduleId");
+
+                    b.HasIndex("TripId");
+
+                    b.ToTable("Schedule", "app");
+                });
+
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Stop", b =>
                 {
                     b.Property<int>("StopId")
@@ -623,6 +738,35 @@ namespace DbDemo.Core.Migrations
                     b.ToTable("Stop", "app");
                 });
 
+            modelBuilder.Entity("DbDemo.Core.Models.Transport.Trip", b =>
+                {
+                    b.Property<int>("TripId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TripId"));
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RouteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TripId");
+
+                    b.HasIndex("RouteId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Trip", "app");
+                });
+
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Vehicle", b =>
                 {
                     b.Property<int>("VehicleId")
@@ -631,12 +775,15 @@ namespace DbDemo.Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleId"));
 
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
                     b.Property<int>("DriverId")
                         .HasColumnType("int");
 
                     b.Property<string>("LicensePlate")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -649,6 +796,8 @@ namespace DbDemo.Core.Migrations
                     b.HasKey("VehicleId");
 
                     b.HasIndex("DriverId");
+
+                    b.HasIndex("LicensePlate");
 
                     b.ToTable("Vehicle", "app");
                 });
@@ -680,7 +829,7 @@ namespace DbDemo.Core.Migrations
                     b.HasOne("DbDemo.Core.Models.Common.Address", "Address")
                         .WithMany("Companies")
                         .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("DbDemo.Core.Models.Economy.Industry", "Industry")
@@ -717,6 +866,17 @@ namespace DbDemo.Core.Migrations
                 {
                     b.HasOne("DbDemo.Core.Models.Economy.Company", "Company")
                         .WithMany("Licenses")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("DbDemo.Core.Models.Economy.TaxPayment", b =>
+                {
+                    b.HasOne("DbDemo.Core.Models.Economy.Company", "Company")
+                        .WithMany("TaxPayments")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -825,19 +985,23 @@ namespace DbDemo.Core.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("DbDemo.Core.Models.Healthcare.MedicalVisit", b =>
+            modelBuilder.Entity("DbDemo.Core.Models.Healthcare.MedicalReception", b =>
                 {
                     b.HasOne("DbDemo.Core.Models.Healthcare.Doctor", "Doctor")
-                        .WithMany("Visits")
+                        .WithMany("MedicalReceptions")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("DbDemo.Core.Models.Healthcare.Patient", "Patient")
-                        .WithMany("Visits")
+                        .WithMany("MedicalReceptions")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DbDemo.Core.Models.Common.Resident", null)
+                        .WithMany("MedicalReceptions")
+                        .HasForeignKey("ResidentId");
 
                     b.Navigation("Doctor");
 
@@ -866,6 +1030,17 @@ namespace DbDemo.Core.Migrations
                     b.Navigation("Building");
                 });
 
+            modelBuilder.Entity("DbDemo.Core.Models.Housing.BillPayment", b =>
+                {
+                    b.HasOne("DbDemo.Core.Models.Housing.UtilityBill", "UtilityBill")
+                        .WithMany("Payments")
+                        .HasForeignKey("UtilityBillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UtilityBill");
+                });
+
             modelBuilder.Entity("DbDemo.Core.Models.Housing.Building", b =>
                 {
                     b.HasOne("DbDemo.Core.Models.Common.Address", "Address")
@@ -877,7 +1052,7 @@ namespace DbDemo.Core.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("DbDemo.Core.Models.Housing.ResidentHousing", b =>
+            modelBuilder.Entity("DbDemo.Core.Models.Housing.ResidentApartment", b =>
                 {
                     b.HasOne("DbDemo.Core.Models.Housing.Apartment", "Apartment")
                         .WithMany("Residents")
@@ -886,7 +1061,7 @@ namespace DbDemo.Core.Migrations
                         .IsRequired();
 
                     b.HasOne("DbDemo.Core.Models.Common.Resident", "Resident")
-                        .WithMany()
+                        .WithMany("ResidentApartments")
                         .HasForeignKey("ResidentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -901,7 +1076,7 @@ namespace DbDemo.Core.Migrations
                     b.HasOne("DbDemo.Core.Models.Housing.Apartment", "Apartment")
                         .WithMany("UtilityBills")
                         .HasForeignKey("ApartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Apartment");
@@ -916,6 +1091,36 @@ namespace DbDemo.Core.Migrations
                         .IsRequired();
 
                     b.Navigation("Resident");
+                });
+
+            modelBuilder.Entity("DbDemo.Core.Models.Transport.Passenger", b =>
+                {
+                    b.HasOne("DbDemo.Core.Models.Common.Resident", "Resident")
+                        .WithMany("Passengers")
+                        .HasForeignKey("ResidentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Resident");
+                });
+
+            modelBuilder.Entity("DbDemo.Core.Models.Transport.PassengerTrip", b =>
+                {
+                    b.HasOne("DbDemo.Core.Models.Transport.Passenger", "Passenger")
+                        .WithMany("PassengerTrips")
+                        .HasForeignKey("PassengerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DbDemo.Core.Models.Transport.Trip", "Trip")
+                        .WithMany("PassengerTrips")
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Passenger");
+
+                    b.Navigation("Trip");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Transport.RouteStop", b =>
@@ -937,15 +1142,45 @@ namespace DbDemo.Core.Migrations
                     b.Navigation("Stop");
                 });
 
+            modelBuilder.Entity("DbDemo.Core.Models.Transport.Schedule", b =>
+                {
+                    b.HasOne("DbDemo.Core.Models.Transport.Trip", "Trip")
+                        .WithMany("Schedules")
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trip");
+                });
+
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Stop", b =>
                 {
                     b.HasOne("DbDemo.Core.Models.Common.Address", "Address")
                         .WithMany("Stops")
                         .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("DbDemo.Core.Models.Transport.Trip", b =>
+                {
+                    b.HasOne("DbDemo.Core.Models.Transport.Route", "Route")
+                        .WithMany("Trips")
+                        .HasForeignKey("RouteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DbDemo.Core.Models.Transport.Vehicle", "Vehicle")
+                        .WithMany("Trips")
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Route");
+
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Vehicle", b =>
@@ -987,7 +1222,13 @@ namespace DbDemo.Core.Migrations
 
                     b.Navigation("Employees");
 
+                    b.Navigation("MedicalReceptions");
+
+                    b.Navigation("Passengers");
+
                     b.Navigation("Patients");
+
+                    b.Navigation("ResidentApartments");
 
                     b.Navigation("Students");
 
@@ -999,6 +1240,8 @@ namespace DbDemo.Core.Migrations
                     b.Navigation("Employees");
 
                     b.Navigation("Licenses");
+
+                    b.Navigation("TaxPayments");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Economy.Industry", b =>
@@ -1027,7 +1270,7 @@ namespace DbDemo.Core.Migrations
 
             modelBuilder.Entity("DbDemo.Core.Models.Healthcare.Doctor", b =>
                 {
-                    b.Navigation("Visits");
+                    b.Navigation("MedicalReceptions");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Healthcare.Hospital", b =>
@@ -1037,7 +1280,7 @@ namespace DbDemo.Core.Migrations
 
             modelBuilder.Entity("DbDemo.Core.Models.Healthcare.Patient", b =>
                 {
-                    b.Navigation("Visits");
+                    b.Navigation("MedicalReceptions");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Housing.Apartment", b =>
@@ -1052,19 +1295,43 @@ namespace DbDemo.Core.Migrations
                     b.Navigation("Apartments");
                 });
 
+            modelBuilder.Entity("DbDemo.Core.Models.Housing.UtilityBill", b =>
+                {
+                    b.Navigation("Payments");
+                });
+
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Driver", b =>
                 {
                     b.Navigation("Vehicles");
                 });
 
+            modelBuilder.Entity("DbDemo.Core.Models.Transport.Passenger", b =>
+                {
+                    b.Navigation("PassengerTrips");
+                });
+
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Route", b =>
                 {
                     b.Navigation("RouteStops");
+
+                    b.Navigation("Trips");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Stop", b =>
                 {
                     b.Navigation("RouteStops");
+                });
+
+            modelBuilder.Entity("DbDemo.Core.Models.Transport.Trip", b =>
+                {
+                    b.Navigation("PassengerTrips");
+
+                    b.Navigation("Schedules");
+                });
+
+            modelBuilder.Entity("DbDemo.Core.Models.Transport.Vehicle", b =>
+                {
+                    b.Navigation("Trips");
                 });
 #pragma warning restore 612, 618
         }

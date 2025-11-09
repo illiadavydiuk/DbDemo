@@ -1,12 +1,7 @@
-﻿using DbDemo.Core.Models.Economy;
-using DbDemo.Core.Models.Education;
-using DbDemo.Core.Models.Healthcare;
-using DbDemo.Core.Models.Transport;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
 
 namespace DbDemo.Core.Models.Common
 {
@@ -23,17 +18,22 @@ namespace DbDemo.Core.Models.Common
         public virtual Address Address { get; set; }
 
         // Education
-        public virtual ICollection<Student> Students { get; set; } = new HashSet<Student>();
-        public virtual ICollection<Teacher> Teachers { get; set; } = new HashSet<Teacher>();
+        public virtual ICollection<Education.Student> Students { get; set; } = new HashSet<Education.Student>();
+        public virtual ICollection<Education.Teacher> Teachers { get; set; } = new HashSet<Education.Teacher>();
 
         // Healthcare
-        public virtual ICollection<Doctor> Doctors { get; set; } = new HashSet<Doctor>();
-        public virtual ICollection<Patient> Patients { get; set; } = new HashSet<Patient>();
-
-        // Transport
-        public virtual ICollection<Driver> Drivers { get; set; } = new HashSet<Driver>();
+        public virtual ICollection<Healthcare.Doctor> Doctors { get; set; } = new HashSet<Healthcare.Doctor>();
+        public virtual ICollection<Healthcare.Patient> Patients { get; set; } = new HashSet<Healthcare.Patient>();
+        public virtual ICollection<Healthcare.MedicalReception> MedicalReceptions { get; set; } = new HashSet<Healthcare.MedicalReception>();
 
         // Economy
-        public virtual ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
+        public virtual ICollection<Economy.Employee> Employees { get; set; } = new HashSet<Economy.Employee>();
+
+        // Housing
+        public virtual ICollection<Housing.ResidentApartment> ResidentApartments { get; set; } = new HashSet<Housing.ResidentApartment>();
+
+        // Transport
+        public virtual ICollection<Transport.Driver> Drivers { get; set; } = new HashSet<Transport.Driver>();
+        public virtual ICollection<Transport.Passenger> Passengers { get; set; } = new HashSet<Transport.Passenger>();
     }
 }

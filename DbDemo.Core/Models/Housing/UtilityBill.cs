@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,7 +15,8 @@ namespace DbDemo.Core.Models.Housing
         public virtual Apartment Apartment { get; set; }
 
         public DateTime IssueDate { get; set; }
-        public DateTime? PaymentDate { get; set; }
         public decimal TotalAmount { get; set; }
+
+        public virtual ICollection<BillPayment> Payments { get; set; } = new HashSet<BillPayment>();
     }
 }

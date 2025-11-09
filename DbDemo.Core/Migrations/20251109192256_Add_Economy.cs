@@ -35,6 +35,16 @@ namespace DbDemo.Core.Migrations
                 schema: "app",
                 table: "License");
 
+            migrationBuilder.DropForeignKey(
+                name: "FK_TaxPayment_Company_CompanyId",
+                schema: "app",
+                table: "TaxPayment");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_TaxPayment",
+                schema: "app",
+                table: "TaxPayment");
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_License",
                 schema: "app",
@@ -54,6 +64,12 @@ namespace DbDemo.Core.Migrations
                 name: "PK_Company",
                 schema: "app",
                 table: "Company");
+
+            migrationBuilder.RenameTable(
+                name: "TaxPayment",
+                schema: "app",
+                newName: "TaxPayments",
+                newSchema: "app");
 
             migrationBuilder.RenameTable(
                 name: "License",
@@ -78,6 +94,12 @@ namespace DbDemo.Core.Migrations
                 schema: "app",
                 newName: "Companies",
                 newSchema: "app");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_TaxPayment_CompanyId",
+                schema: "app",
+                table: "TaxPayments",
+                newName: "IX_TaxPayments_CompanyId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_License_CompanyId",
@@ -108,6 +130,12 @@ namespace DbDemo.Core.Migrations
                 schema: "app",
                 table: "Companies",
                 newName: "IX_Companies_AddressId");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_TaxPayments",
+                schema: "app",
+                table: "TaxPayments",
+                column: "TaxPaymentId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Licenses",
@@ -141,7 +169,7 @@ namespace DbDemo.Core.Migrations
                 principalSchema: "app",
                 principalTable: "Addresses",
                 principalColumn: "AddressId",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Companies_Industries_IndustryId",
@@ -182,6 +210,16 @@ namespace DbDemo.Core.Migrations
                 principalTable: "Companies",
                 principalColumn: "CompanyId",
                 onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_TaxPayments_Companies_CompanyId",
+                schema: "app",
+                table: "TaxPayments",
+                column: "CompanyId",
+                principalSchema: "app",
+                principalTable: "Companies",
+                principalColumn: "CompanyId",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
@@ -212,6 +250,16 @@ namespace DbDemo.Core.Migrations
                 schema: "app",
                 table: "Licenses");
 
+            migrationBuilder.DropForeignKey(
+                name: "FK_TaxPayments_Companies_CompanyId",
+                schema: "app",
+                table: "TaxPayments");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_TaxPayments",
+                schema: "app",
+                table: "TaxPayments");
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Licenses",
                 schema: "app",
@@ -231,6 +279,12 @@ namespace DbDemo.Core.Migrations
                 name: "PK_Companies",
                 schema: "app",
                 table: "Companies");
+
+            migrationBuilder.RenameTable(
+                name: "TaxPayments",
+                schema: "app",
+                newName: "TaxPayment",
+                newSchema: "app");
 
             migrationBuilder.RenameTable(
                 name: "Licenses",
@@ -255,6 +309,12 @@ namespace DbDemo.Core.Migrations
                 schema: "app",
                 newName: "Company",
                 newSchema: "app");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_TaxPayments_CompanyId",
+                schema: "app",
+                table: "TaxPayment",
+                newName: "IX_TaxPayment_CompanyId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Licenses_CompanyId",
@@ -285,6 +345,12 @@ namespace DbDemo.Core.Migrations
                 schema: "app",
                 table: "Company",
                 newName: "IX_Company_AddressId");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_TaxPayment",
+                schema: "app",
+                table: "TaxPayment",
+                column: "TaxPaymentId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_License",
@@ -318,7 +384,7 @@ namespace DbDemo.Core.Migrations
                 principalSchema: "app",
                 principalTable: "Addresses",
                 principalColumn: "AddressId",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Company_Industry_IndustryId",
@@ -354,6 +420,16 @@ namespace DbDemo.Core.Migrations
                 name: "FK_License_Company_CompanyId",
                 schema: "app",
                 table: "License",
+                column: "CompanyId",
+                principalSchema: "app",
+                principalTable: "Company",
+                principalColumn: "CompanyId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_TaxPayment_Company_CompanyId",
+                schema: "app",
+                table: "TaxPayment",
                 column: "CompanyId",
                 principalSchema: "app",
                 principalTable: "Company",
