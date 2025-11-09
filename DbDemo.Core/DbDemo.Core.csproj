@@ -15,4 +15,11 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Healthcare\" />
+    <Folder Include="Models\Housing\" />
+    <Folder Include="Models\Economy\" />
+    <Folder Include="Models\Transport\" />
+  </ItemGroup>
+
 </Project>

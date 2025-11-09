@@ -4,6 +4,7 @@ using DbDemo.Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbDemo.Core.Migrations
 {
     [DbContext(typeof(DemoDbContext))]
-    partial class DemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251109181751_Init_Common")]
+    partial class Init_Common
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,7 +121,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("IndustryId");
 
-                    b.ToTable("Companies", "app");
+                    b.ToTable("Company", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Economy.Employee", b =>
@@ -156,7 +159,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("ResidentId");
 
-                    b.ToTable("Employees", "app");
+                    b.ToTable("Employee", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Economy.Industry", b =>
@@ -173,7 +176,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasKey("IndustryId");
 
-                    b.ToTable("Industries", "app");
+                    b.ToTable("Industry", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Economy.License", b =>
@@ -198,7 +201,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Licenses", "app");
+                    b.ToTable("License", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Education.Class", b =>
@@ -225,7 +228,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Classes", "app");
+                    b.ToTable("Class", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Education.School", b =>
@@ -251,7 +254,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Schools", "app");
+                    b.ToTable("School", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Education.Student", b =>
@@ -279,7 +282,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("SchoolId");
 
-                    b.ToTable("Students", "app");
+                    b.ToTable("Student", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Education.Teacher", b =>
@@ -305,7 +308,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("SchoolId");
 
-                    b.ToTable("Teachers", "app");
+                    b.ToTable("Teacher", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Healthcare.Doctor", b =>
@@ -340,7 +343,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("ResidentId");
 
-                    b.ToTable("Doctors", "app");
+                    b.ToTable("Doctor", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Healthcare.Hospital", b =>
@@ -366,7 +369,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Hospitals", "app");
+                    b.ToTable("Hospital", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Healthcare.MedicalVisit", b =>
@@ -396,7 +399,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("MedicalVisits", "app");
+                    b.ToTable("MedicalVisit", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Healthcare.Patient", b =>
@@ -422,7 +425,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("ResidentId");
 
-                    b.ToTable("Patients", "app");
+                    b.ToTable("Patient", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Housing.Apartment", b =>
@@ -450,7 +453,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("BuildingId");
 
-                    b.ToTable("Apartments", "app");
+                    b.ToTable("Apartment", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Housing.Building", b =>
@@ -477,7 +480,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Buildings", "app");
+                    b.ToTable("Building", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Housing.ResidentHousing", b =>
@@ -503,7 +506,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("ResidentId");
 
-                    b.ToTable("ResidentHousings", "app");
+                    b.ToTable("ResidentHousing", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Housing.UtilityBill", b =>
@@ -530,7 +533,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("ApartmentId");
 
-                    b.ToTable("UtilityBills", "app");
+                    b.ToTable("UtilityBill", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Driver", b =>
@@ -552,7 +555,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("ResidentId");
 
-                    b.ToTable("Drivers", "app");
+                    b.ToTable("Driver", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Route", b =>
@@ -577,7 +580,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasKey("RouteId");
 
-                    b.ToTable("Routes", "app");
+                    b.ToTable("Route", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Transport.RouteStop", b =>
@@ -595,7 +598,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("StopId");
 
-                    b.ToTable("RouteStops", "app");
+                    b.ToTable("RouteStop", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Stop", b =>
@@ -617,7 +620,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Stops", "app");
+                    b.ToTable("Stop", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Transport.Vehicle", b =>
@@ -647,7 +650,7 @@ namespace DbDemo.Core.Migrations
 
                     b.HasIndex("DriverId");
 
-                    b.ToTable("Vehicles", "app");
+                    b.ToTable("Vehicle", "app");
                 });
 
             modelBuilder.Entity("DbDemo.Core.Models.Common.Address", b =>
